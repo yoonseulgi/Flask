@@ -1,0 +1,55 @@
+2021-12-14 14:52:46,564 ERROR: Exception on / [GET] [in C:\Users\KOSCOM\anaconda3\lib\site-packages\flask\app.py:1891]
+Traceback (most recent call last):
+  File "C:\Users\KOSCOM\anaconda3\lib\site-packages\flask\app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\KOSCOM\anaconda3\lib\site-packages\flask\app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\KOSCOM\anaconda3\lib\site-packages\flask\app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Users\KOSCOM\anaconda3\lib\site-packages\flask\_compat.py", line 39, in reraise
+    raise value
+  File "C:\Users\KOSCOM\anaconda3\lib\site-packages\flask\app.py", line 1948, in full_dispatch_request
+    rv = self.preprocess_request()
+  File "C:\Users\KOSCOM\anaconda3\lib\site-packages\flask\app.py", line 2242, in preprocess_request
+    rv = func()
+  File "C:\Users\KOSCOM\Desktop\jupyterlab\Flask\microblog\app\routes.py", line 111, in before_request
+    if current_user.is_authenticated:
+  File "C:\Users\KOSCOM\anaconda3\lib\site-packages\werkzeug\local.py", line 347, in __getattr__
+    return getattr(self._get_current_object(), name)
+  File "C:\Users\KOSCOM\anaconda3\lib\site-packages\werkzeug\local.py", line 306, in _get_current_object
+    return self.__local()
+  File "C:\Users\KOSCOM\anaconda3\lib\site-packages\flask_login\utils.py", line 26, in <lambda>
+    current_user = LocalProxy(lambda: _get_user())
+  File "C:\Users\KOSCOM\anaconda3\lib\site-packages\flask_login\utils.py", line 346, in _get_user
+    current_app.login_manager._load_user()
+  File "C:\Users\KOSCOM\anaconda3\lib\site-packages\flask_login\login_manager.py", line 302, in _load_user
+    raise Exception(
+Exception: Missing user_loader or request_loader. Refer to http://flask-login.readthedocs.io/#how-it-works for more info.
+2021-12-14 14:54:10,692 INFO: Microblog startup [in C:\Users\KOSCOM\Desktop\jupyterlab\Flask\microblog\app\__init__.py:52]
+2021-12-14 14:54:14,922 ERROR: Exception on / [GET] [in C:\Users\KOSCOM\anaconda3\lib\site-packages\flask\app.py:1891]
+Traceback (most recent call last):
+  File "C:\Users\KOSCOM\anaconda3\lib\site-packages\flask\app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\KOSCOM\anaconda3\lib\site-packages\flask\app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\KOSCOM\anaconda3\lib\site-packages\flask\app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Users\KOSCOM\anaconda3\lib\site-packages\flask\_compat.py", line 39, in reraise
+    raise value
+  File "C:\Users\KOSCOM\anaconda3\lib\site-packages\flask\app.py", line 1948, in full_dispatch_request
+    rv = self.preprocess_request()
+  File "C:\Users\KOSCOM\anaconda3\lib\site-packages\flask\app.py", line 2242, in preprocess_request
+    rv = func()
+  File "C:\Users\KOSCOM\Desktop\jupyterlab\Flask\microblog\app\routes.py", line 111, in before_request
+    if current_user.is_authenticated:
+  File "C:\Users\KOSCOM\anaconda3\lib\site-packages\werkzeug\local.py", line 347, in __getattr__
+    return getattr(self._get_current_object(), name)
+  File "C:\Users\KOSCOM\anaconda3\lib\site-packages\werkzeug\local.py", line 306, in _get_current_object
+    return self.__local()
+  File "C:\Users\KOSCOM\anaconda3\lib\site-packages\flask_login\utils.py", line 26, in <lambda>
+    current_user = LocalProxy(lambda: _get_user())
+  File "C:\Users\KOSCOM\anaconda3\lib\site-packages\flask_login\utils.py", line 346, in _get_user
+    current_app.login_manager._load_user()
+  File "C:\Users\KOSCOM\anaconda3\lib\site-packages\flask_login\login_manager.py", line 302, in _load_user
+    raise Exception(
+Exception: Missing user_loader or request_loader. Refer to http://flask-login.readthedocs.io/#how-it-works for more info.

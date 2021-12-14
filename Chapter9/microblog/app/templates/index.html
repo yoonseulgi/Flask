@@ -1,9 +1,9 @@
+
 {% extends "base.html" %}
 
 {% block content %}
     <h1>Hi, {{ current_user.username }}!</h1>
     {% if form %}
-    <form action="" method="post">
     <form action="" method="post">
         {{ form.hidden_tag() }}
         <p>
@@ -16,7 +16,6 @@
         <p>{{ form.submit() }}</p>
     </form>
     {% endif %}
-    </form>
     {% for post in posts %}
         {% include '_post.html' %}
     {% endfor %}
@@ -26,8 +25,4 @@
     {% if next_url %}
     <a href="{{ next_url }}">Older posts</a>
     {% endif %}
-    <p>
-    {{ post.author.username }} says: <b>{{ post.body }}</b>
-    </p>
-    {% endfor %}
 {% endblock %}

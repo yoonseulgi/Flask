@@ -1,14 +1,15 @@
 from flask import render_template, flash, redirect, url_for, request
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, EditProfileForm,\
-    EmptyForm, PostForm
+from app.forms import LoginForm, RegistrationForm, EmptyForm, PostForm
 from flask_login import current_user, login_user, logout_user,\
     login_required
 from app.models import User, Post
 from werkzeug.urls import url_parse
-from datetime import datetime
 from app.forms import ResetPasswordRequestForm
 from app.email import send_password_reset_email
+#chap6
+from datetime import datetime
+from app.forms import EditProfileForm
 from app.forms import ResetPasswordForm
 
 
@@ -23,6 +24,16 @@ def index():
         db.session.commit()
         flash('Your post is now live!')
         return redirect(url_for('index'))
+    posts = [
+        { 
+            'author': {'username': 'John'}, 
+            'body': 'Beautiful day in Portland!' 
+        },
+        { 
+            'author': {'username': 'Susan'}, 
+            'body': 'The Avengers movie was so cool!' 
+        }
+    ]
     page = request.args.get('page', 1, type=int)
     posts = current_user.followed_posts().paginate(
         page, app.config['POSTS_PER_PAGE'], False)
@@ -35,11 +46,13 @@ def index():
                            prev_url=prev_url)
 
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
     form = LoginForm()
+    
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
@@ -50,6 +63,7 @@ def login():
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('index')
         return redirect(next_page)
+    
     return render_template('login.html', title='Sign In', form=form)
 
 
@@ -90,13 +104,15 @@ def user(username):
                            next_url=next_url, prev_url=prev_url, form=form)
 
 
+
+#chap6
 @app.before_request
 def before_request():
     if current_user.is_authenticated:
         current_user.last_seen = datetime.utcnow()
         db.session.commit()
-
-
+        
+        
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
@@ -110,7 +126,6 @@ def edit_profile():
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.about_me.data = current_user.about_me
-
     return render_template('edit_profile.html', title='Edit Profile',
                            form=form)
 
@@ -128,13 +143,13 @@ def follow(username):
             flash('You cannot follow yourself!')
             return redirect(url_for('user', username=username))
         current_user.follow(user)
-        db.session.commit()  
+        db.session.commit()
         flash('You are following {}!'.format(username))
         return redirect(url_for('user', username=username))
-    else:  
+    else:
         return redirect(url_for('index'))
 
-
+    
 @app.route('/unfollow/<username>', methods=['POST'])
 @login_required
 def unfollow(username):
@@ -149,12 +164,12 @@ def unfollow(username):
             return redirect(url_for('user', username=username))
         current_user.unfollow(user)
         db.session.commit()
-        flash('You are not following {}!'.format(username))
+        flash('You are not following {}.'.format(username))
         return redirect(url_for('user', username=username))
     else:
         return redirect(url_for('index'))
-
-
+    
+    
 @app.route('/explore')
 @login_required
 def explore():
@@ -165,8 +180,9 @@ def explore():
         if posts.has_next else None
     prev_url = url_for('explore', page=posts.prev_num) \
         if posts.has_prev else None
-    return render_template('index.html', title='Explore', posts=posts.items,
-                           next_url=next_url, prev_url=prev_url)
+    return render_template("index.html", title='Explore', posts=posts.items,
+                          next_url=next_url, prev_url=prev_url)
+
 
 
 @app.route('/reset_password_request', methods=['GET', 'POST'])
@@ -182,6 +198,7 @@ def reset_password_request():
         return redirect(url_for('login'))
     return render_template('reset_password_request.html',
                            title='Reset Password', form=form)
+
 
 @app.route('/reset_password/<token>', methods=['GET', 'POST'])
 def reset_password(token):
