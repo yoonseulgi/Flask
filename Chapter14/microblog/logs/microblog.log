@@ -57,3 +57,7 @@ Exception: Missing user_loader or request_loader. Refer to http://flask-login.re
 2021-12-15 09:53:42,907 INFO: Microblog startup [in C:\Users\KOSCOM\Desktop\jupyterlab\Flask\microblog\app\__init__.py:57]
 2021-12-15 09:53:55,040 INFO: Microblog startup [in C:\Users\KOSCOM\Desktop\jupyterlab\Flask\microblog\app\__init__.py:57]
 2021-12-15 09:54:05,929 INFO: Microblog startup [in C:\Users\KOSCOM\Desktop\jupyterlab\Flask\microblog\app\__init__.py:57]
+2021-12-15 11:36:23,017 INFO: Microblog startup [in C:\Users\KOSCOM\Desktop\jupyterlab\Flask\microblog\app\__init__.py:57]
+2021-12-15 13:24:23,524 INFO: Microblog startup [in C:\Users\KOSCOM\Desktop\jupyterlab\Flask\microblog\app\__init__.py:57]
+2021-12-15 16:01:09,568 INFO: Microblog startup [in C:\Users\KOSCOM\Desktop\jupyterlab\Flask\microblog\app\__init__.py:57]
+2021-12-15 16:18:06,176 INFO: Microblog startup [in C:\Users\KOSCOM\Desktop\jupyterlab\Flask\microblog\app\__init__.py:57]

@@ -57,3 +57,82 @@ def get_locale():
 ```shell
 pybabel extract -F babel.cfg -k _l -o messages.pot .
 ```
+
+### Generating a Language Catalog
+- 기본 언어 외에 번역을 지원할 언어 설정
+- 해당 튜토리얼에선 스페인어 사용
+
+```shell
+pybabel init -i messages.pot -d app/translations -l es
+```
+
+- -l 옵션에 지정된 언어로 -d 옵션으로 지정된 위치에 message.pot 파일을 저장
+- __messages.po__ 파일에 일부
+
+```python
+#: app/email.py:21
+msgid "[Microblog] Reset Your Password"
+msgstr "[Microblog] Nueva Contraseña"
+```
+
+- 번역을 컴파일하기 위해 아래와 같은 명령어를 사용
+
+```shell
+pybabel compile -d app/translations
+```
+
+- compile 명령어 실행 결과 __messages.mo__ 파일이 생성
+- __messages.mo__ 을 응용 프로그램에서 사용하고 싶다면 브라우저의 설정을 변경하거나 __localeselector__ 함수
+- __localeselector__ 함수는 모든 텍스트를 지정된 언어로 번역하여 표시
+
+### Updating the Translations
+- _() or _l() 함수가 일부 텍스트를 놓친 경우 발생 가능
+- 아래와 같은 명령어를 실행하여 해당 문제 해결
+- 새로운 __messages.pot__ 파일 생성
+
+```shell
+pybabel extract -F babel.cfg -k _l -o messages.pot .
+pybabel update -i messages.pot -d app/translations
+```
+
+### Translating Dates and Times
+- __moment.js__ 를 사용해 날짜와 시간 맞게 적절히 구성
+- 지원하는 언어를 늘리기 싶다면 언어의 목록을 추가하면 됨
+- 추가한 목록을 __get_locale()__ 함수에 추가
+
+```python
+@babel.localeselector
+def get_locale():
+    return request.accept_languages.best_match(app.config['LANGUAGES'])
+```
+
+### Marking Texts to Translate In Python Source Code
+- 응용 프로그램은 텍스트를 지원하는 모든 언어로 번역해야 함
+- 즉, text -> Flask-Babel이 scan -> gettext 사용 -> 별도의 번역 파일 추출
+
+### Command-Line Enhancements
+- 응용 프로그램에서 pybabel 명령을 실행하는 간단한 명령 만들기
+  __flask translate init LANG__ : 새로운 언어 추가
+  __flask translate update__ : 모든 언어 repository를 업데이트
+  __flask translate compile__ : 모든 언어 repository를 컴파일
+- Flask는 click 패키지에 의존
+- __app.cli.group()__ 데코레이터를 통해 __tanslate()__ 함수 등록
+
+```python
+from app import app
+
+@app.cli.group()
+def translate():
+    """Translation and localization commands."""
+    pass
+```
+
+- flask translate --help 문장을 실행하면 정의한 3가지 옵션이 출력
+
+```shell
+Commands:
+  compile  Compile all languages.
+  init     Initialize a new language.
+  update   Update all languages.
+```
+

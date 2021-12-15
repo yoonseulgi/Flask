@@ -13,6 +13,9 @@ from app.forms import EditProfileForm
 from app.forms import ResetPasswordForm
 from flask import g
 from flask_babel import get_locale
+from langdetect import detect, LangDetectException
+from flask import jsonify
+from app.translate import translate
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -21,7 +24,12 @@ from flask_babel import get_locale
 def index():
     form = PostForm()
     if form.validate_on_submit():
-        post = Post(body=form.post.data, author=current_user)
+        try:
+            language = detect(form.post.data)
+        except LangDetectException:
+            language = ''
+        post = Post(body=form.post.data, author=current_user,
+                    language=language)
         db.session.add(post)
         db.session.commit()
         flash('Your post is now live!')
@@ -217,3 +225,11 @@ def reset_password(token):
         flash('Your password has been reset.')
         return redirect(url_for('login'))
     return render_template('reset_password.html', form=form)
+
+
+@app.route('/translate', methods=['POST'])
+@login_required
+def translate_text():
+    return jsonify({'text': translate(request.form['text'],
+                                      request.form['source_language'],
+                                      request.form['dest_language'])})
